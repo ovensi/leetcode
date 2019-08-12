@@ -1,3 +1,9 @@
+/*
+ * @Author: 斯周
+ * @Date: 2019-08-07 22:49:17
+ * @LastEditors: 斯周
+ * @LastEditTime: 2019-08-12 23:50:25
+ */
  var reverseList = function(head) {
     let pre = null
     let curr = head

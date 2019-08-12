@@ -1,3 +1,9 @@
+/*
+ * @Author: 斯周
+ * @Date: 2019-08-08 23:03:49
+ * @LastEditors: 斯周
+ * @LastEditTime: 2019-08-12 23:50:14
+ */
 var isValid = function(s) {
     const map = new Map([
       [')', '('],
