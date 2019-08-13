@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-10 00:52:46
- * @LastEditTime: 2019-08-13 01:39:51
+ * @LastEditTime: 2019-08-13 09:47:31
  * @LastEditors: 斯周
  */
 /**
@@ -24,7 +24,6 @@ var KthLargest = function(k, nums) {
     }
     this.minHeap.push(minNum)
     this.minHeap.splice(minIndex, 1)
-    console.log(this.minHeap)
   }
   if(nums.length >= k) {
     this.minHeap = nums.filter((value, index) => index < k).map(value => value)
@@ -34,6 +33,7 @@ var KthLargest = function(k, nums) {
       if(this.minHeap[this.minHeap.length - 1] <= nums[i]) {
         this.minHeap[this.minHeap.length - 1] = nums[i]
       }
+      this.updateHeap()
     }
   } else {
     this.minHeap = nums.map((value, index) => {
@@ -57,7 +57,7 @@ KthLargest.prototype.add = function(val) {
     this.minHeap[this.minHeap.length - 1] = val
     this.updateHeap()
   }
-  console.log(this.minHeap[this.minHeap.length - 1], 'add', val, 
+  // console.log(this.minHeap[this.minHeap.length - 1], 'add', val, 
   // this.minHeap
   )
   return this.minHeap[this.minHeap.length - 1]
