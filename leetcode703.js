@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-10 00:52:46
- * @LastEditTime: 2019-08-13 09:47:31
+ * @LastEditTime: 2019-08-14 00:18:40
  * @LastEditors: 斯周
  */
 /**
@@ -16,11 +16,25 @@ var KthLargest = function(k, nums) {
   this.updateHeap = () => {
     let minNum = this.minHeap[0]
     let minIndex = 0
-    for(let i = 1; i < this.minHeap.length; i ++) {
-      if(minNum >= this.minHeap[i]) {
-        minNum = this.minHeap[i]
-        minIndex = i
+    // for(let i = 1; i < this.minHeap.length; i ++) {
+    //   if(minNum >= this.minHeap[i]) {
+    //     minNum = this.minHeap[i]
+    //     minIndex = i
+    //   }
+    // }
+    let left_i = 0
+    let right_i = this.minHeap.length
+    while (left_i <= right_i) {
+      if(minNum >= this.minHeap[left_i]) {
+        minNum = this.minHeap[left_i]
+        minIndex = left_i
       }
+      if(minNum >= this.minHeap[right_i]) {
+        minNum = this.minHeap[right_i]
+        minIndex = right_i
+      }
+      left_i ++
+      right_i --
     }
     this.minHeap.push(minNum)
     this.minHeap.splice(minIndex, 1)
@@ -57,7 +71,7 @@ KthLargest.prototype.add = function(val) {
     this.minHeap[this.minHeap.length - 1] = val
     this.updateHeap()
   }
-  // console.log(this.minHeap[this.minHeap.length - 1], 'add', val, 
+  console.log(this.minHeap[this.minHeap.length - 1], 'add', val, 
   // this.minHeap
   )
   return this.minHeap[this.minHeap.length - 1]
@@ -71,16 +85,16 @@ KthLargest.prototype.add = function(val) {
 // a.add(4)
 // ["KthLargest","add","add","add","add","add"]
 // [[1,[]],[-3],[-2],[-4],[0],[4]]
-// var action = ["KthLargest","add","add","add","add","add"]
-// var params = [[2,[0]],[-1],[1],[-2],[-4],[3]]
-var action = ["KthLargest","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add"]
-var params = [[7,[-10,1,3,1,4,10,3,9,4,5,1]],[3],[2],[3],[1],[2],[4],[5],[5],[6],[7],[7],[8],[2],[3],[1],[1],[1],[10],[11],[5],[6],[2],[4],[7],[8],[5],[6]]
+var action = ["KthLargest","add","add","add","add","add"]
+var params = [[2,[0]],[-1],[1],[-2],[-4],[3]]
+// var action = ["KthLargest","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add","add"]
+// var params = [[7,[-10,1,3,1,4,10,3,9,4,5,1]],[3],[2],[3],[1],[2],[4],[5],[5],[6],[7],[7],[8],[2],[3],[1],[1],[1],[10],[11],[5],[6],[2],[4],[7],[8],[5],[6]]
 
 
 // [null,-1,0,0,0,1]
 // console.log(params[0][1])
 var a = eval(`new ${action[0]}(${params[0][0]}, ${JSON.stringify(params[0][1])})`)
 // console.log(a)
-// for(let i = 1; i < params.length; i ++) {
-//   a.add(params[i][0])
-// }
+for(let i = 1; i < params.length; i ++) {
+  a.add(params[i][0])
+}
