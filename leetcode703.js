@@ -2,7 +2,7 @@
  * @Description: In User Settings Edit
  * @Author: your name
  * @Date: 2019-08-10 00:52:46
- * @LastEditTime: 2019-08-14 00:18:40
+ * @LastEditTime: 2019-08-14 09:57:27
  * @LastEditors: 斯周
  */
 /**
@@ -98,3 +98,159 @@ var a = eval(`new ${action[0]}(${params[0][0]}, ${JSON.stringify(params[0][1])})
 for(let i = 1; i < params.length; i ++) {
   a.add(params[i][0])
 }
+
+////////////////////////////////
+
+class KthLargest {
+    constructor(size, nums) {
+        if (size < 1) {
+            throw 'size must bigger than 0!';
+        }
+        this.size = size;
+        this.store = [0];
+        
+        for (const n of nums) {
+            this.add(n);
+        }
+    }
+    
+    get len() {
+        return this.store.length - 1;
+    }
+    
+    swap(i, j) {
+        const t = this.store[i];
+        this.store[i] = this.store[j];
+        this.store[j] = t;
+    }
+
+    compare(i, j) {
+        return this.store[i] - this.store[j];
+    }
+    
+    swim(i) {
+        while (i > 1) {
+            const p = Math.floor(i / 2);
+            if (this.compare(i, p) >= 0) break;
+            this.swap(i, p);
+            i = p;
+        }
+    }
+    
+    sink(i) {
+        while((i * 2) <= this.len) {
+            let c = i * 2;
+            if (c < this.len && this.compare(c+1, c) < 0) c = c + 1;
+            if (this.compare(i, c) <= 0) break;
+            this.swap(i, c);
+            i = c;
+        }
+    }
+    
+    top() {
+        if (this.len <= 0) {
+            return null;
+        }
+        return this.store[1];
+    }
+    
+    delTop() {
+        const top = this.top()
+        if (top !== null) {
+            this.swap(1, this.len);
+            this.store.length -= 1;
+            this.sink(1);            
+        }
+        return top;
+    }
+    
+    insert(n) {
+        if (this.len < this.size) {
+            this.store.push(n);
+            this.swim(this.len);
+        }
+    }
+    
+    add(n) {
+        if (this.len === this.size) {
+            const top = this.top();
+            if (top >= n) {
+                return top;
+            }
+            this.delTop();
+        }
+        this.insert(n);
+        return this.top();
+    }
+}
+////////////////////////////////
+
+var heapify = function (arr, i) {
+    let len = arr.length,
+        left = 2 * i,
+        right = 2 * i + 1,
+        minimum = i;
+
+    if (left < len && arr[left] < arr[minimum]) minimum = left;
+    if (right < len && arr[right] < arr[minimum]) minimum = right;
+
+    if (minimum !== i) {
+        const tmp = arr[i];
+        arr[i] = arr[minimum];
+        arr[minimum] = tmp;
+        heapify(arr, minimum);
+    }
+}
+
+var buildMinHeap = function (arr) {
+    const len = arr.length;
+    for (let i = Math.floor(len / 2); i >= 0; i--) {
+        heapify(arr, i);
+    }
+}
+
+
+/**
+ * @param {number} k
+ * @param {number[]} nums
+ */
+var KthLargest = function (k, nums) {
+    let i = 0, len = nums.length;
+    this.k = k;
+    this.nums = [];
+    for (i = 0; i < k && i < len; i++) {
+        this.nums[i] = nums[i];
+    }
+    buildMinHeap(this.nums);
+    for (; i < len; i++) {
+        const num = nums[i];
+        if (this.nums[0] < num) {
+            this.nums[0] = num;
+            heapify(this.nums, 0);
+        }
+    }
+};
+
+/** 
+ * @param {number} val
+ * @return {number}
+ */
+KthLargest.prototype.add = function (val) {
+    const k = this.k;
+    if (this.nums.length === k) {
+        if (this.nums[0] < val) {
+            this.nums[0] = val;
+            heapify(this.nums, 0);
+        }
+    } else {
+        this.nums.push(val);
+        buildMinHeap(this.nums);
+    }
+    return this.nums[0];
+};
+
+/**
+ * Your KthLargest object will be instantiated and called as such:
+ * var obj = Object.create(KthLargest).createNew(k, nums)
+ * var param_1 = obj.add(val)
+ */
