@@ -15,7 +15,7 @@ var trap = function(height) {
     }
     result += Math.min(left, right) - height[i]
   }
-  console.log(result)
+  return result
 };
 
 var a = [0,1,0,2,1,0,1,3,2,1,2,1]
